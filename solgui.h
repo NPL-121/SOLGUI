@@ -66,13 +66,19 @@ class EditBox
    private:
            std::string addtext;
 };
+  // EditBox + SpinButton /////////////////////////////////////
+class EditBoxSp : public EditBox
+{
+        public:
+            void draw();
+            void MouseOn();
+};
 
   // Caption -> ///////////////////////////////////////////////
 class Caption
 {
     public:
         short int x,y;
-        short int fontSize = 12.0;
         float step = 0.5;
         std::wstring caption;
         const char *cstr, *path_font;

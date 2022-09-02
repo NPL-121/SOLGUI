@@ -49,8 +49,8 @@ Buttn b1(10, 400, 80, 20, mouse_x, mouse_y, mouse_but_state, L"button1");
 Buttn b2(10, 490, 80, 20, mouse_x, mouse_y, mouse_but_state, L"Кнопка_2");
 
  // едитбокс
-EditBox e1(10, 430, 80, 20, mouse_x, mouse_y, wheel_mouse, mouse_but_state, "3000");
-EditBox e2(10, 460, 80, 20, mouse_x, mouse_y, wheel_mouse, mouse_but_state, "1500");
+EditBox e1(10, 430, 80, 20, mouse_x, mouse_y, wheel_mouse, mouse_but_state, "30");
+EditBox e2(10, 460, 80, 20, mouse_x, mouse_y, wheel_mouse, mouse_but_state, "15");
 
 // Caption
 Caption capt1(200, 200, L"Тестовое сообщение");
@@ -263,12 +263,9 @@ void display_text ( GLFWwindow * window )
        capt1.caption = L"Динамическое изменение";
      }
 
+     capt1.iFontSize = atof(e2.text.c_str());
+     std::cout << atof(e2.text.c_str()) << std::endl;
 
-    if (e1.state == true)
-     {
-       
-        
-     }
      
     wheel_mouse = 0; //сбрасывеам состояние колеса мыши на ноль
 }
