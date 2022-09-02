@@ -263,10 +263,8 @@ void display_text ( GLFWwindow * window )
        capt1.caption = L"Динамическое изменение";
      }
 
-     capt1.iFontSize = atof(e2.text.c_str());
-     std::cout << atof(e2.text.c_str()) << std::endl;
-
-     
+     capt1.iFontSize = atof(e2.text.c_str()); /* изменение размера шрифта 
+                                                 через изменение текста в editbox e1 */
     wheel_mouse = 0; //сбрасывеам состояние колеса мыши на ноль
 }
 
