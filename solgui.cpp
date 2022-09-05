@@ -79,14 +79,13 @@ void Buttn::MouseOn(double mousex, double mousey, std::string mouse_state)
                  glEnd();
 
                  glColor3f(0.0,0.0,0.0);
-                    glBegin(GL_QUADS); // Рисуем прямоугольник (фон EditBox)
+                    glBegin(GL_QUADS); // Рисуем прямоугольник (фон )
                     glVertex2f(x, y+2);
                     glVertex2f(x, y+b-2);
                     glVertex2f(x+a-2, y+b-2);
                     glVertex2f(x+a-2, y+2);
                 glEnd();
                       
-
                       glColor3f(0.3, 0.5, 0.45);
                       FTGLPixmapFont font(path_font); // Уменьшение
                       font.FaceSize(iFontSize*0.85);       // надписи
@@ -154,7 +153,7 @@ void EditBox::draw() // Отрисовка editbox
     font.FaceSize(iFontSize+2);  
     glRasterPos2i(x+4,y+(b/2)+4);
     cstr = text.c_str();
-    font.Render(cstr);   
+    font.Render(cstr);
   }
 
 // Проверка наличия курсора мыши над EditBox и действия при этом
@@ -183,8 +182,8 @@ void EditBox::MouseOn(double mousex, double mousey, short int wheel, std::string
                 {
                    //std::cout << "LBM pressed on control elements" << std::endl; // отладка
                    state = true;
-          // момент времени от старта программы, принимаемый за точку отсчета в цикле
-          // моргания каретки
+                  // момент времени от старта программы, принимаемый за точку отсчета в цикле
+                  // моргания каретки
                    timer_start = duration_state;
                    
                    glColor4f(0.9,0.9,1.0,this->alpha);
@@ -199,7 +198,7 @@ void EditBox::MouseOn(double mousex, double mousey, short int wheel, std::string
                 //std::cout << "mouse wheel up"<< std::endl;
                 double num = atof(this->text.c_str());
                 if (this->type_num == 0) { // double
-                  num = num + 0.01f * multiply;
+                  num = num + step;
                   short int precisionVal = 2; // точность
                   this->text = std::to_string(num).substr(0, std::to_string(num).find(".") + precisionVal + 1);
                 }
@@ -209,7 +208,7 @@ void EditBox::MouseOn(double mousex, double mousey, short int wheel, std::string
                 //std::cout << "mouse wheel down"<< std::endl;
                 double num = atof(this->text.c_str());
                 if (this->type_num == 0) { // double
-                  num = num - 0.01f * multiply;
+                  num = num - step;
                   short int precisionVal = 2; // точность
                   this->text = std::to_string(num).substr(0, std::to_string(num).find(".") + precisionVal + 1);
                 }
@@ -320,7 +319,204 @@ void EditBox::MouseOn(double mousex, double mousey, short int wheel, std::string
        }
    }    
 }
+
+void EditBox::attach(SpinButtn &spButtn)
+{
+  spButtn.height = this->b;
+  spButtn.width = this->b;
+  spButtn.x = this->x + this->a;
+  spButtn.y = this->y;
+  spButtn.step = this->step;
+  spButtn.sValue = this->text;
+
+  this->attached = true;
+  spButtn.attach(*this);
+
+}
+
+void EditBox::getSpinButtnState(SpinButtn &spButtn)
+{
+  if (spButtn.changed) {
+    //std::cout << "ButtnState changed" << std::endl;
+    this->text = spButtn.sValue;
+  }
+  if (this->attached) {
+    spButtn.sValue = this->text;
+  }
+}
+
 // <- EditBox /////////////////////////////////////////////////
+
+//==================================================================================================================
+// SpinButtn
+void SpinButtn::draw()
+{
+  if (this->enabled) glColor3f(guiColorBase.x, guiColorBase.y, guiColorBase.z);   /* если едитбокс активен*/
+    else glColor3f(guiColorBase.x*0.5f, guiColorBase.y*0.5f, guiColorBase.z*0.5f);  /* то цвет ярче, иначе темнее*/
+  
+  glBegin(GL_LINE_STRIP); // Рисуем контур
+     glVertex2f(x, y);
+     glVertex2f(x, y+this->height);
+     glVertex2f(x+this->width, y+this->height);
+     glVertex2f(x+this->width, y);
+     glVertex2f(x, y);
+  glEnd();
+  glBegin(GL_LINE_STRIP); // Рисуем разделение кнопок
+     glVertex2f(x, y+this->height*0.5f);
+     glVertex2f(x+this->width, y+this->height*0.5f);
+  glEnd();
+  glBegin(GL_TRIANGLES); // треугольник значок "вверх"
+     glVertex2f(x+this->width*0.75f, y+this->height*0.1f); 
+     glVertex2f(x+this->width*0.9f, y+this->height*0.4f);
+     glVertex2f(x+this->width*0.6f, y+this->height*0.4f);
+  glEnd();
+  glBegin(GL_TRIANGLES); // треугольник значок "вниз"
+     glVertex2f(x+this->width*0.25f, y+this->height*0.9f); 
+     glVertex2f(x+this->width*0.1f, y+this->height*0.6f);
+     glVertex2f(x+this->width*0.4f, y+this->height*0.6f);
+  glEnd();
+}
+
+void SpinButtn::MouseOn(double mousex, double mousey, std::string mouse_state, 
+                        double duration_state)
+{
+    if (this->enabled){
+      if ( mousex > x and mousex < x+this->width       // верхняя кнопка
+        and  mousey > y  and mousey < y+height*0.5f ) // при наведении мыши
+            {
+                //std::cout << "SpinButton on mouse" << std::endl;
+                glColor3f(0.2,0.35,0.3);
+                glBegin(GL_LINE_STRIP); // Рисуем контур верхней кнопки
+                  glVertex2f(x+2, y+2);
+                  glVertex2f(x+2, y+this->height*0.5f-2);
+                  glVertex2f(x+2+this->width-4, y+this->height*0.5f-2);
+                  glVertex2f(x+2+this->width-4, y+2);
+                  glVertex2f(x+2, y+2);
+                glEnd();
+
+                this->changed = false;
+              
+                if (mouse_state == "Left") // Если мышь на кнопке и нажата кнопка
+                {
+                  glColor3f(0.0,0.0,0.0);             // Закрашивание черным
+                  glBegin(GL_LINE_STRIP);             // имеющейся рамки
+                    glVertex2f(x, y);                  // для эффекта нажатия
+                    glVertex2f(x+this->width, y);
+                    glVertex2f(x+this->width, y+this->height*0.5f);
+                  glEnd();
+
+                  glColor3f(0.0,0.0,0.0);
+                  glBegin(GL_QUADS); // Рисуем прямоугольник (фон )
+                    glVertex2f(x+2, y+2);
+                    glVertex2f(x+2, y+this->height*0.5f-2);
+                    glVertex2f(x+2+this->width-4, y+this->height*0.5f-2);
+                    glVertex2f(x+2+this->width-4, y+2);
+                  glEnd();
+
+                  glColor3f(0.3, 0.5, 0.45);           // Отрисовка новой рамки
+                  glBegin(GL_LINE_STRIP);              // кнопки для эффекта
+                    glVertex2f(x+2, y+2);              // нажатия
+                    glVertex2f(x+2, y-2+this->height*0.5f);
+                    glVertex2f(x-2+this->width, y-2+this->height*0.5f);
+                    glVertex2f(x-2+this->width, y+2);
+                    glVertex2f(x+2, y+2);
+                  glEnd();
+
+                  glColor3f(0.3, 0.5, 0.45);
+                  glBegin(GL_TRIANGLES); // треугольник значок "вверх"
+                    glVertex2f(x+this->width*0.75f*0.9f, y+this->height*0.1f*0.9f); 
+                    glVertex2f(x+this->width*0.9f*0.9f, y+this->height*0.4f*0.9f);
+                    glVertex2f(x+this->width*0.6f*0.9f, y+this->height*0.4f*0.9f);
+                  glEnd();
+
+                  
+                  double timer = duration_state - timer_start; //таймер для замедления ввода
+                  // std::cout << timer << std::endl; // отладочный вывод
+                  if (timer <= 0.03) //
+                  {
+                    //изменение параметра;
+                    double num = atof(this->sValue.c_str());
+                    num = num + step;
+                    short int precisionVal = 2; // точность
+                    this->sValue = std::to_string(num).substr(0, std::to_string(num).find(".") + precisionVal + 1);
+                    this->value = num;
+                    this->changed = true;
+                  }
+                  if (timer > 0.1) timer_start = duration_state;
+                }
+
+            }
+      if ( mousex > x and mousex < x+this->width       // нижняя кнопка
+        and  mousey > y+height*0.5f and mousey < y+height*1.0f ) // при наведении мыши
+            {
+                //std::cout << "SpinButton on mouse" << std::endl;
+                glColor3f(0.2,0.35,0.3);
+                glBegin(GL_LINE_STRIP); // Рисуем контур нижней кнопки
+                  glVertex2f(x+2, y+this->height*0.5f+2);
+                  glVertex2f(x+2, y+this->height*1.0f-2);
+                  glVertex2f(x+2+this->width-4, y+this->height*1.0f-2);
+                  glVertex2f(x+2+this->width-4, y+this->height*0.5f+2);
+                  glVertex2f(x+2, y+this->height*0.5f+2);
+                glEnd();
+
+                if (mouse_state == "Left") // Если мышь на кнопке и нажата кнопка
+                {
+                  glColor3f(0.0,0.0,0.0);             // Закрашивание черным
+                  glBegin(GL_LINE_STRIP);             // имеющейся рамки           
+                    glVertex2f(x, y+this->height);    // для эффекта нажатия
+                    glVertex2f(x+this->width, y+this->height);
+                    glVertex2f(x+this->width, y+this->height*0.5f);
+                  glEnd();
+
+                  glColor3f(0.0,0.0,0.0);
+                  glBegin(GL_QUADS); // Рисуем прямоугольник (фон )
+                    glVertex2f(x+2, y+this->height*0.5f+2);
+                    glVertex2f(x+2, y+this->height*1.0f-2);
+                    glVertex2f(x+2+this->width-4, y+this->height*1.0f-2);
+                    glVertex2f(x+2+this->width-4, y+this->height*0.5f+2);
+                  glEnd();
+
+                  glColor3f(0.3, 0.5, 0.45);           // Отрисовка новой рамки
+                  glBegin(GL_LINE_STRIP);              // кнопки для эффекта
+                    glVertex2f(x+2, y+this->height*0.5f+2);              // нажатия
+                    glVertex2f(x+2, y-2+this->height*1.0f);
+                    glVertex2f(x-2+this->width, y-2+this->height*1.0f);
+                    glVertex2f(x-2+this->width, y+this->height*0.5f+2);
+                    glVertex2f(x+2, y+this->height*0.5f+2);
+                  glEnd();
+
+                  glColor3f(0.3, 0.5, 0.45);
+                  glBegin(GL_TRIANGLES); // треугольник значок "вниз"
+                    glVertex2f(x+this->width*0.25f*1.1f, y+this->height*0.9f*0.9f); 
+                    glVertex2f(x+this->width*0.1f*1.1f, y+this->height*0.6f*0.9f);
+                    glVertex2f(x+this->width*0.4f*1.1f, y+this->height*0.6f*0.9f);
+                  glEnd();
+
+                  double timer = duration_state - timer_start; //таймер для замедления ввода
+                  // std::cout << timer << std::endl; // отладочный вывод
+                  if (timer <= 0.03) //
+                  {
+                    //изменение параметра;
+                    double num = atof(this->sValue.c_str());
+                    num = num - step;
+                    short int precisionVal = 2; // точность
+                    this->sValue = std::to_string(num).substr(0, std::to_string(num).find(".") + precisionVal + 1);
+                    this->value = num;
+                    this->changed = true;
+                  }
+                  if (timer > 0.1) timer_start = duration_state;
+
+                }
+            }
+    }
+}
+
+void SpinButtn::attach(EditBox &EdBox)
+{
+  //std::cout << "Attached" << std::endl;
+  this->attached = true;
+}
+
 
 //===============================================================================
 // Caption

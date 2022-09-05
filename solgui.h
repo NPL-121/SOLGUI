@@ -5,6 +5,10 @@
 const glm::vec3 guiColorBase(0.5,0.75,0.7);  // базовый цвет линий интерфейса
 //const char *pathFont = "data/fonts/TerminusTTF-4.47.0.ttf";
 
+class Buttn;
+class SpinButton;
+class EditBox;
+class Caption;
 
 //////////////////////////////////////////////////////////////
 // Классы
@@ -33,7 +37,36 @@ class Buttn
             void MouseOn(double mousex, double mousey, std::string mouse_state);
 };
       
-  // EditBox -> ///////////////////////////////////////////////
+// SpinButton /////////////////////////////////////
+class SpinButtn
+{
+        public:
+            short int x, y;
+            float value = 1.0;
+            float step = 1.0;
+            bool enabled = true;
+            short int width = 10;
+            short int height = 10;
+            std::string sValue;
+            bool attached = false;
+            bool changed = false;
+            double timer_start;
+            
+            void draw();
+            void MouseOn(double mousex, double mousey, std::string mouse_state,
+                         double duration_state);
+            void attach(EditBox &edBox);
+            void changeValue(EditBox &edBox);
+
+            SpinButtn(short int _x=0, short int _y=0, float _value = 1.0, float _step = 1) :
+                      x(_x), y(_y), value(_value), step(_step) {};
+
+        private:
+            const char *cstr;
+            
+};
+  
+// EditBox -> ///////////////////////////////////////////////
 class EditBox
 {
     public:
@@ -49,8 +82,12 @@ class EditBox
            double timer_start;
            bool num_wheel = true;  // переключатель для контроля смены цифр колесом мыши
            short unsigned int type_num=0; // тип integer or double;
-           short int multiply = 1; // кратность
-           
+           //short int multiply = 1; // кратность
+           float step = 1.0;       // шаг изменения
+           bool attached = false;
+
+           void attach(SpinButtn &spButtn);
+           void getSpinButtnState(SpinButtn &spButtn);     
            
            EditBox(float _x=0.0, float _y=0.0, float _a=20.0, float _b=10.0,
                   double _mousex=0.0, double _mousey=0.0, short int _wheel=0, std::string _mouse_state = "",
@@ -61,19 +98,13 @@ class EditBox
                    mousex(_mousex), mousey(_mousey), wheel(_wheel), mouse_state(_mouse_state),
                    text (_text), path_font(_path_font), iFontSize(_iFontSize) {};
             void draw();
+            void draw(SpinButtn &spButtn);
             void MouseOn(double mousex, double mousey, short int wheel, std::string mouse_state,
                          double duration_state, short int key);
    private:
            std::string addtext;
 };
-  // EditBox + SpinButton /////////////////////////////////////
-class EditBoxSp : public EditBox
-{
-        public:
-            void draw();
-            void MouseOn();
-};
-
+  
   // Caption -> ///////////////////////////////////////////////
 class Caption
 {

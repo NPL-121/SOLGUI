@@ -55,6 +55,9 @@ EditBox e2(10, 460, 80, 20, mouse_x, mouse_y, wheel_mouse, mouse_but_state, "15"
 // Caption
 Caption capt1(200, 200, L"Тестовое сообщение");
 
+//SpinButtn
+SpinButtn SpB1(300, 300, 10.0, 1.0);
+
 
 
 
@@ -141,8 +144,8 @@ void mouse_cursor_callback( GLFWwindow * window, double xpos, double ypos)
 void setParamsGUI()
 {
     //e1.enabled = false;
-    e1.multiply = 10;       //кратность изменения параметра
-    e2.multiply = 100;       //кратность изменения параметра
+    e1.step = 0.1;       //кратность изменения параметра
+    e2.step = 1.0;       //кратность изменения параметра
     //b1.enabled = false;
 
     b1.iFontSize = 16;
@@ -150,6 +153,10 @@ void setParamsGUI()
 
     // изменение дефолтного шрифта
     capt1.path_font = "data/fonts/neuropol_medium.ttf";
+
+    // attach Spinbutton
+    e1.attach(SpB1);
+    
 }
 
 // Настройка свойств OpenGL
@@ -165,7 +172,7 @@ void Init ()
 ////////////////////////////
 
 
-// Вывод текста с помощью FTGL
+// Отрисовка главной сцены
 void display_text ( GLFWwindow * window )
 {
     char buff[100];
@@ -234,16 +241,20 @@ void display_text ( GLFWwindow * window )
     b1.draw(); // buttn
     b2.draw();
 
-    e1.draw(); // editbox1
-    e2.draw(); // editbox2
+    e1.draw(); // отрисовка editbox1
+    e1.getSpinButtnState(SpB1); // получение параметров spinbutton
+    e2.draw(); // отрисовка editbox2
 
-    capt1.draw();
+    capt1.draw(); // caption
+
+    SpB1.draw();  // spinbutton
 
     // Проверка взаимодействия с мышью
     b1.MouseOn(mouse_x, mouse_y, mouse_but_state);
     b2.MouseOn(mouse_x, mouse_y, mouse_but_state);
     e1.MouseOn(mouse_x, mouse_y, wheel_mouse, mouse_but_state, duration, key_press);
     e2.MouseOn(mouse_x, mouse_y, wheel_mouse, mouse_but_state, duration, key_press);
+    SpB1.MouseOn(mouse_x, mouse_y, mouse_but_state, duration);
     
 
     // что происходит при нажатии кнопок b1, b2 и т.д.
