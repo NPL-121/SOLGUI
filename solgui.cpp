@@ -459,6 +459,8 @@ void SpinButtn::MouseOn(double mousex, double mousey, std::string mouse_state,
                   glVertex2f(x+2, y+this->height*0.5f+2);
                 glEnd();
 
+                this->changed = false;
+
                 if (mouse_state == "Left") // Если мышь на кнопке и нажата кнопка
                 {
                   glColor3f(0.0,0.0,0.0);             // Закрашивание черным

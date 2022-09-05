@@ -57,6 +57,7 @@ Caption capt1(200, 200, L"Тестовое сообщение");
 
 //SpinButtn
 SpinButtn SpB1(300, 300, 10.0, 1.0);
+SpinButtn SpB2(320, 300, 10.0, 1.0);
 
 
 
@@ -156,6 +157,7 @@ void setParamsGUI()
 
     // attach Spinbutton
     e1.attach(SpB1);
+    e2.attach(SpB2);
     
 }
 
@@ -244,10 +246,12 @@ void display_text ( GLFWwindow * window )
     e1.draw(); // отрисовка editbox1
     e1.getSpinButtnState(SpB1); // получение параметров spinbutton
     e2.draw(); // отрисовка editbox2
+    e2.getSpinButtnState(SpB2);
 
     capt1.draw(); // caption
 
     SpB1.draw();  // spinbutton
+    SpB2.draw(); 
 
     // Проверка взаимодействия с мышью
     b1.MouseOn(mouse_x, mouse_y, mouse_but_state);
@@ -255,6 +259,7 @@ void display_text ( GLFWwindow * window )
     e1.MouseOn(mouse_x, mouse_y, wheel_mouse, mouse_but_state, duration, key_press);
     e2.MouseOn(mouse_x, mouse_y, wheel_mouse, mouse_but_state, duration, key_press);
     SpB1.MouseOn(mouse_x, mouse_y, mouse_but_state, duration);
+    SpB2.MouseOn(mouse_x, mouse_y, mouse_but_state, duration);
     
 
     // что происходит при нажатии кнопок b1, b2 и т.д.
