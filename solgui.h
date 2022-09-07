@@ -119,8 +119,12 @@ class Caption
         const char *cstr, *path_font;
         const wchar_t *wcstr;
         short int iFontSize = 20;
+        float colorRed = 1.0;
+        float colorGreen = 1.0;
+        float colorBlue = 1.0;
 
         void draw();
+        void setColor(float r, float g, float b);
         
         Caption(short int _x=0, short int _y=0, std::wstring _caption = L"Caption", 
                 const char *_path_font = "data/fonts/fabryka_4f_medium.ttf") : 

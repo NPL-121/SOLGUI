@@ -534,6 +534,7 @@ void SpinButtn::attach(EditBox &EdBox)
 // Caption
 void Caption::draw()
 {
+    glColor3f(this->colorRed, this->colorGreen, this->colorBlue);
     FTGLPixmapFont font(path_font);
     font.CharMap(ft_encoding_unicode);
     font.FaceSize(iFontSize);
@@ -542,4 +543,11 @@ void Caption::draw()
     wcstr = caption.c_str();
     
     font.Render(wcstr);
+}
+
+void Caption::setColor(float r, float g, float b)
+{
+    this->colorRed = r;
+    this->colorGreen = g;
+    this->colorBlue = b;
 }

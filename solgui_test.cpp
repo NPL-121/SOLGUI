@@ -26,7 +26,8 @@
     int windowHeight = 600;   // Размер окна
     double duration;   // Счетчик времени программы
     double mouse_x, mouse_y; // Координаты мыши
-    std::string mouse_but_state, temp_caption;
+    std::string mouse_but_state;
+    std::wstring temp_caption;
     double time_start; // Момент запуска программы
     FTGLPixmapFont font("data/fonts/isocpeur_regular.ttf");
 
@@ -54,6 +55,7 @@ EditBox e2(10, 460, 80, 20, mouse_x, mouse_y, wheel_mouse, mouse_but_state, "15"
 
 // Caption
 Caption capt1(200, 200, L"Тестовое сообщение");
+Caption capt2(20, 160, L"Events = ");
 
 //SpinButtn
 SpinButtn SpB1(300, 300, 10.0, 1.0);
@@ -148,7 +150,7 @@ void setParamsGUI()
     e1.step = 0.1;       //кратность изменения параметра
     e2.step = 1.0;       //кратность изменения параметра
 
-    // Изменение пределов изменения числа
+    // Изменение пределов изменения числа (default min = 0, max = 1000)
     e1.maxCounter = 35;
     e1.minCounter = -1;
 
@@ -160,7 +162,14 @@ void setParamsGUI()
     // изменение дефолтного шрифта
     capt1.path_font = "data/fonts/neuropol_medium.ttf";
 
-    // attach Spinbutton
+    capt2.path_font = "data/fonts/isocpeur_regular.ttf";
+    capt2.iFontSize = 18;
+
+    //изменение дефолтного цвета
+    capt1.setColor(0.2, 0.7, 0.4);
+    
+
+    // attach Spinbutton, присоединение spinbutton к editbox
     e1.attach(SpB1);
     e2.attach(SpB2);
     
@@ -185,16 +194,6 @@ void display_text ( GLFWwindow * window )
     char buff[100];
     const char *cstr;
         
-////////////////////DRAW WORLD/////////////////////////
-    
-
-    
-      //world1.draw(world1.scale, world1.mouse_x_p, world1.mouse_y_p, desk1); 
-       
-      //desk1.draw(windowWidth, windowHeight);
-    
-    
-//////////////////////////////////////////////////
     glColor3f(1.0,1.0,1.0);
     font.FaceSize(18);
     glRasterPos2i(20,80);
@@ -219,13 +218,6 @@ void display_text ( GLFWwindow * window )
     font.Render("Mouse button state = ");
     glRasterPos2i(200,120);
      cstr = mouse_but_state.c_str(); // Преобразование string в char
-    font.Render(cstr);
-
-    // Вывод служебных сообщений
-    glRasterPos2i(20,140);
-    font.Render("Events = ");
-     cstr = temp_caption.c_str(); // Преобразование string в char
-    glRasterPos2i(100,140);
     font.Render(cstr);
 
 
@@ -254,11 +246,12 @@ void display_text ( GLFWwindow * window )
     e2.getSpinButtnState(SpB2);
 
     capt1.draw(); // caption
+    capt2.draw();
 
     SpB1.draw();  // spinbutton
     SpB2.draw(); 
 
-    // Проверка взаимодействия с мышью
+    // Проверка взаимодействия с мышью элементов интерфейса
     b1.MouseOn(mouse_x, mouse_y, mouse_but_state);
     b2.MouseOn(mouse_x, mouse_y, mouse_but_state);
     e1.MouseOn(mouse_x, mouse_y, wheel_mouse, mouse_but_state, duration, key_press);
@@ -270,22 +263,21 @@ void display_text ( GLFWwindow * window )
     // что происходит при нажатии кнопок b1, b2 и т.д.
     if (b1.state == true) 
      {
-       temp_caption = "button 1 pressed";
-         //world1.size_x = atoi( e1.text.c_str() );
-         //world1.size_y = atoi( e2.text.c_str() );
+       temp_caption =  L"button 1 pressed";
        b1.state = false;
      }
     if (b2.state == true) 
      {
-       temp_caption = "button 2 pressed";
-         //world1.size_x = atoi( e1.text.c_str() );
-         //world1.size_y = atoi( e2.text.c_str() );
        b2.state = false;
+       temp_caption = L"button 2 pressed";
        capt1.caption = L"Динамическое изменение";
      }
 
      capt1.iFontSize = atof(e2.text.c_str()); /* изменение размера шрифта 
                                                  через изменение текста в editbox e1 */
+
+     capt2.caption = L"Events = " + temp_caption;
+
     wheel_mouse = 0; //сбрасывеам состояние колеса мыши на ноль
 }
 
