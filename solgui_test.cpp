@@ -147,6 +147,11 @@ void setParamsGUI()
     //e1.enabled = false;
     e1.step = 0.1;       //кратность изменения параметра
     e2.step = 1.0;       //кратность изменения параметра
+
+    // Изменение пределов изменения числа
+    e1.maxCounter = 35;
+    e1.minCounter = -1;
+
     //b1.enabled = false;
 
     b1.iFontSize = 16;

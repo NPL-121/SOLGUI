@@ -197,8 +197,10 @@ void EditBox::MouseOn(double mousex, double mousey, short int wheel, std::string
               {
                 //std::cout << "mouse wheel up"<< std::endl;
                 double num = atof(this->text.c_str());
-                if (this->type_num == 0) { // double
+                if (this->type_num == 0) { // double 
                   num = num + step;
+                  if (num < minCounter) num = minCounter;
+                  if (num > maxCounter) num = maxCounter;
                   short int precisionVal = 2; // точность
                   this->text = std::to_string(num).substr(0, std::to_string(num).find(".") + precisionVal + 1);
                 }
@@ -209,6 +211,8 @@ void EditBox::MouseOn(double mousex, double mousey, short int wheel, std::string
                 double num = atof(this->text.c_str());
                 if (this->type_num == 0) { // double
                   num = num - step;
+                  if (num < minCounter) num = minCounter;
+                  if (num > maxCounter) num = maxCounter;
                   short int precisionVal = 2; // точность
                   this->text = std::to_string(num).substr(0, std::to_string(num).find(".") + precisionVal + 1);
                 }
@@ -328,6 +332,8 @@ void EditBox::attach(SpinButtn &spButtn)
   spButtn.y = this->y;
   spButtn.step = this->step;
   spButtn.sValue = this->text;
+  spButtn.minCounter = this->minCounter;
+  spButtn.maxCounter = this->maxCounter;
 
   this->attached = true;
   spButtn.attach(*this);
@@ -437,6 +443,8 @@ void SpinButtn::MouseOn(double mousex, double mousey, std::string mouse_state,
                     //изменение параметра;
                     double num = atof(this->sValue.c_str());
                     num = num + step;
+                    if (num < minCounter) num = minCounter;
+                    if (num > maxCounter) num = maxCounter;
                     short int precisionVal = 2; // точность
                     this->sValue = std::to_string(num).substr(0, std::to_string(num).find(".") + precisionVal + 1);
                     this->value = num;
@@ -501,6 +509,8 @@ void SpinButtn::MouseOn(double mousex, double mousey, std::string mouse_state,
                     //изменение параметра;
                     double num = atof(this->sValue.c_str());
                     num = num - step;
+                    if (num < minCounter) num = minCounter;
+                    if (num > maxCounter) num = maxCounter;
                     short int precisionVal = 2; // точность
                     this->sValue = std::to_string(num).substr(0, std::to_string(num).find(".") + precisionVal + 1);
                     this->value = num;

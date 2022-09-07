@@ -51,6 +51,8 @@ class SpinButtn
             bool attached = false;
             bool changed = false;
             double timer_start;
+            float minCounter = 0;
+            float maxCounter = 1000;
             
             void draw();
             void MouseOn(double mousex, double mousey, std::string mouse_state,
@@ -85,6 +87,8 @@ class EditBox
            //short int multiply = 1; // кратность
            float step = 1.0;       // шаг изменения
            bool attached = false;
+           float minCounter = 0;
+           float maxCounter = 1000;
 
            void attach(SpinButtn &spButtn);
            void getSpinButtnState(SpinButtn &spButtn);     
