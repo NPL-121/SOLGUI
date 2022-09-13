@@ -61,6 +61,9 @@ Caption capt2(20, 160, L"Events = ");
 SpinButtn SpB1(300, 300, 10.0, 1.0);
 SpinButtn SpB2(320, 300, 10.0, 1.0);
 
+//ComboBox
+ComboBox CB1(20, 190);
+
 
 
 
@@ -251,6 +254,8 @@ void display_text ( GLFWwindow * window )
     SpB1.draw();  // spinbutton
     SpB2.draw(); 
 
+    CB1.draw(); // ComboBox
+
     // Проверка взаимодействия с мышью элементов интерфейса
     b1.MouseOn(mouse_x, mouse_y, mouse_but_state);
     b2.MouseOn(mouse_x, mouse_y, mouse_but_state);
@@ -258,6 +263,7 @@ void display_text ( GLFWwindow * window )
     e2.MouseOn(mouse_x, mouse_y, wheel_mouse, mouse_but_state, duration, key_press);
     SpB1.MouseOn(mouse_x, mouse_y, mouse_but_state, duration);
     SpB2.MouseOn(mouse_x, mouse_y, mouse_but_state, duration);
+    CB1.MouseOn(mouse_x, mouse_y, wheel_mouse, mouse_but_state);
     
 
     // что происходит при нажатии кнопок b1, b2 и т.д.

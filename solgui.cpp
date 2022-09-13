@@ -551,3 +551,82 @@ void Caption::setColor(float r, float g, float b)
     this->colorGreen = g;
     this->colorBlue = b;
 }
+
+//===============================================================================
+// ComboBox
+void ComboBox::draw()
+{
+    glColor3f(guiColorBase.x, guiColorBase.y, guiColorBase.z);
+    glBegin(GL_LINE_STRIP);             
+        glVertex2f(x, y);                  
+        glVertex2f(x+this->width, y);
+        glVertex2f(x+this->width, y+this->height);
+        glVertex2f(x, y+this->height);
+        glVertex2f(x, y);
+    glEnd();
+    glBegin(GL_LINE_STRIP);                             
+        glVertex2f(x+this->width-this->height, y);
+        glVertex2f(x+this->width-this->height, y+this->height);
+    glEnd();
+    glBegin(GL_TRIANGLES); // треугольник значок "вниз"
+        glVertex2f( x+this->width-(this->height*0.8f), y+this->height*0.25f);
+        glVertex2f( x+this->width-(this->height*0.2f), y+this->height*0.25f);
+        glVertex2f( x+this->width-(this->height*0.5f), y+this->height*0.8f);
+    glEnd();
+}
+
+void ComboBox::MouseOn(double mousex, double mousey, short int wheel, std::string mouse_state)
+{
+    if (this->enabled){
+      if ( mousex > x and mousex < x+this->width      
+        and  mousey > y  and mousey < y+height )
+            {
+                glColor3f(guiColorPressed.x, guiColorPressed.y, guiColorPressed.z);
+                glBegin(GL_LINE_STRIP); // 
+                    glVertex2f(x+this->width-this->height+2, y+2);                  
+                    glVertex2f(x+this->width-2, y+2);
+                    glVertex2f(x+this->width-2, y+this->height-2);
+                    glVertex2f(x+this->width-this->height+2, y+this->height-2);
+                    glVertex2f(x+this->width-this->height+2, y+2);
+                glEnd();
+                if (mouse_state == "Left") // Если мышь на кнопке и нажата кнопка
+                {
+                  glColor3f(0.0,0.0,0.0);             // Закрашивание черным
+                  glBegin(GL_LINE_STRIP);             // имеющейся рамки           
+                    glVertex2f(x+this->width-this->height+0, y);                  
+                    glVertex2f(x+this->width, y);
+                    glVertex2f(x+this->width, y+this->height);
+                    glVertex2f(x+this->width-this->height+0, y+this->height);
+                    glVertex2f(x+this->width-this->height+0, y);
+                  glEnd();
+                  glColor3f(0.0,0.0,0.0);
+                  glBegin(GL_QUADS); // Рисуем прямоугольник (фон )
+                    glVertex2f(x+this->width-this->height, y);                  
+                    glVertex2f(x+this->width, y);
+                    glVertex2f(x+this->width, y+this->height);
+                    glVertex2f(x+this->width-this->height, y+this->height);
+                  glEnd();
+                  glColor3f(0.5,0.75,0.55);// Отрисовка новой рамки
+                  glBegin(GL_LINE_STRIP);              // кнопки для эффекта                              
+                    glVertex2f(x+this->width-this->height+3, y+3);  // нажатия             
+                    glVertex2f(x+this->width-3, y+3);
+                    glVertex2f(x+this->width-3, y+this->height-3);
+                    glVertex2f(x+this->width-this->height+3, y+this->height-3);
+                    glVertex2f(x+this->width-this->height+3, y+3);
+                  glEnd();
+                  glColor3f(guiColorBase.x, guiColorBase.y, guiColorBase.z);
+                  glBegin(GL_LINE_STRIP);                             
+                    glVertex2f(x+this->width-this->height, y);
+                    glVertex2f(x+this->width-this->height, y+this->height);
+                  glEnd();
+                  glColor3f(guiColorPressed.x, guiColorPressed.y, guiColorPressed.z);
+                  glBegin(GL_TRIANGLES); // треугольник значок "вниз"
+                    glVertex2f( x+this->width-(this->height*0.6f), y+this->height*0.3f);
+                    glVertex2f( x+this->width-(this->height*0.3f), y+this->height*0.3f);
+                    glVertex2f( x+this->width-(this->height*0.5f), y+this->height*0.6f);
+                  glEnd();
+                }
+            }
+    }
+}
+

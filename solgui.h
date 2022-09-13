@@ -2,13 +2,15 @@
 #define SOLGUI_H
 #include <glm/glm.hpp>  // Включаем GLM
 
-const glm::vec3 guiColorBase(0.5,0.75,0.7);  // базовый цвет линий интерфейса
+const glm::vec3 guiColorBase(0.5,0.75,0.7);   // базовый цвет линий интерфейса
+const glm::vec3 guiColorPressed(0.25,0.37,0.35); // цвет интерфейса при нажатии
 //const char *pathFont = "data/fonts/TerminusTTF-4.47.0.ttf";
 
 class Buttn;
 class SpinButton;
 class EditBox;
 class Caption;
+class ComboBox;
 
 //////////////////////////////////////////////////////////////
 // Классы
@@ -91,7 +93,8 @@ class EditBox
            float maxCounter = 1000;
 
            void attach(SpinButtn &spButtn);
-           void getSpinButtnState(SpinButtn &spButtn);     
+           void getSpinButtnState(SpinButtn &spButtn);
+           void setColor(float r, float g, float b);    
            
            EditBox(float _x=0.0, float _y=0.0, float _a=20.0, float _b=10.0,
                   double _mousex=0.0, double _mousey=0.0, short int _wheel=0, std::string _mouse_state = "",
@@ -129,6 +132,25 @@ class Caption
         Caption(short int _x=0, short int _y=0, std::wstring _caption = L"Caption", 
                 const char *_path_font = "data/fonts/fabryka_4f_medium.ttf") : 
                 x(_x), y(_y), caption(_caption), path_font(_path_font) {};
+};
+
+// ComboBox -> /////////////////////////////////////////////////
+class ComboBox
+{
+    public:
+        short int x, y;
+        short int width = 100;
+        short int height = 20;
+        bool enabled = true;
+        double mousex, mousey;
+        short int wheel=0;         // состояние колеса мыши
+        std::string mouse_state;
+
+        ComboBox(short int _x=0, short int _y=0) : x(_x), y(_y) {};
+
+        void draw();
+        void MouseOn(double mousex, double mousey, short int wheel, std::string mouse_state);
+        
 };
 
 
