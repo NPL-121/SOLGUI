@@ -573,13 +573,16 @@ void ComboBox::draw()
         glVertex2f( x+this->width-(this->height*0.2f), y+this->height*0.25f);
         glVertex2f( x+this->width-(this->height*0.5f), y+this->height*0.8f);
     glEnd();
+
+    if (show_list == true) printString();
 }
 
 void ComboBox::MouseOn(double mousex, double mousey, short int wheel, std::string mouse_state)
 {
     if (this->enabled){
+      if (show_list) full_height = length_list; // если комбобокс открыт
       if ( mousex > x and mousex < x+this->width      
-        and  mousey > y  and mousey < y+height )
+        and  mousey > y  and mousey < y+height+full_height )
             {
                 glColor3f(guiColorPressed.x, guiColorPressed.y, guiColorPressed.z);
                 glBegin(GL_LINE_STRIP); // 
@@ -625,8 +628,47 @@ void ComboBox::MouseOn(double mousex, double mousey, short int wheel, std::strin
                     glVertex2f( x+this->width-(this->height*0.3f), y+this->height*0.3f);
                     glVertex2f( x+this->width-(this->height*0.5f), y+this->height*0.6f);
                   glEnd();
+                  
+                  if (!show_list) show_list = true;
+                    else { show_list = false; full_height = 0; };
+
+                  if (show_list) printString();
+                  
                 }
+                
             }
     }
+}
+
+void ComboBox::addString(std::wstring text)
+{
+    this->listString.push_back(text);
+}
+
+void ComboBox::printString()
+{
+   /* for (std::wstring n : this->listString)
+        std::wcout << n << std::endl; */
+    length_list = 0;
+    short int i = 0;
+    for (std::wstring n : this->listString)
+    {
+        length_list = length_list + this->height;
+        glColor3f(this->colorRed, this->colorGreen, this->colorBlue);
+        FTGLPixmapFont font(path_font);
+        font.CharMap(ft_encoding_unicode);
+        font.FaceSize(iFontSize);
+        glRasterPos2i(x,y+height*0.85+length_list);
+        wcstr = this->listString[i].c_str();   
+        font.Render(wcstr);
+        i++;
+    }
+    glColor3f(guiColorBase.x, guiColorBase.y, guiColorBase.z);
+    glBegin(GL_LINE_STRIP);
+      glVertex2f(x, y+height);
+      glVertex2f(x, y+height+length_list);
+      glVertex2f(x+width, y+height+length_list);
+      glVertex2f(x+width, y+height);
+    glEnd();
 }
 

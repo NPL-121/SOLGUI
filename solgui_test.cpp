@@ -175,6 +175,14 @@ void setParamsGUI()
     // attach Spinbutton, присоединение spinbutton к editbox
     e1.attach(SpB1);
     e2.attach(SpB2);
+
+    // добавление в ComboBox строк
+    CB1.addString(L"Первая строка");
+    CB1.addString(L"second string");
+    CB1.addString(L"third string");
+    CB1.addString(L"синий цвет");
+        // отладка
+        //CB1.printString();
     
 }
 
