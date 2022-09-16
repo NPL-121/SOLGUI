@@ -139,14 +139,15 @@ class ComboBox
 {
     public:
         short int x, y;
-        short int width = 100;
+        short int width = 140;
         short int height = 20;
         bool enabled = true;
         double mousex, mousey;
         short int wheel=0;         // состояние колеса мыши
         std::string mouse_state;
         std::vector<std::wstring> listString;
-        short int iFontSize=15;
+        short int iFontSize=16;
+        double timer_start;
         float colorRed = guiColorBase.x;
         float colorGreen = guiColorBase.y;
         float colorBlue = guiColorBase.z;
@@ -158,7 +159,8 @@ class ComboBox
         ComboBox(short int _x=0, short int _y=0) : x(_x), y(_y) {};
 
         void draw();
-        void MouseOn(double mousex, double mousey, short int wheel, std::string mouse_state);
+        void MouseOn(double mousex, double mousey, short int wheel, std::string mouse_state,
+                     double duration_state);
         void addString(std::wstring text);
         void printString();
 

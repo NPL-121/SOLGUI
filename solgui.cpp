@@ -577,8 +577,10 @@ void ComboBox::draw()
     if (show_list == true) printString();
 }
 
-void ComboBox::MouseOn(double mousex, double mousey, short int wheel, std::string mouse_state)
+void ComboBox::MouseOn(double mousex, double mousey, short int wheel, std::string mouse_state,
+                       double duration_state)
 {
+    double timer = duration_state - timer_start; //таймер для замедления ввода
     if (this->enabled){
       if (show_list) full_height = length_list; // если комбобокс открыт
       if ( mousex > x and mousex < x+this->width      
@@ -594,6 +596,7 @@ void ComboBox::MouseOn(double mousex, double mousey, short int wheel, std::strin
                 glEnd();
                 if (mouse_state == "Left") // Если мышь на кнопке и нажата кнопка
                 {
+                  timer_start = duration_state;
                   glColor3f(0.0,0.0,0.0);             // Закрашивание черным
                   glBegin(GL_LINE_STRIP);             // имеющейся рамки           
                     glVertex2f(x+this->width-this->height+0, y);                  
@@ -629,11 +632,11 @@ void ComboBox::MouseOn(double mousex, double mousey, short int wheel, std::strin
                     glVertex2f( x+this->width-(this->height*0.5f), y+this->height*0.6f);
                   glEnd();
                   
-                  if (!show_list) show_list = true;
+                  if (!show_list && (timer <= 0.03)) show_list = true;
                     else { show_list = false; full_height = 0; };
 
                   if (show_list) printString();
-                  
+                  if (timer > 0.1) timer_start = duration_state;
                 }
                 
             }
