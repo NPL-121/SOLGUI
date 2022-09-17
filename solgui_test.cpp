@@ -181,6 +181,7 @@ void setParamsGUI()
     CB1.addString(L"second string");
     CB1.addString(L"third string");
     CB1.addString(L"синий цвет");
+    //CB1.caption=L"Caption";
         // отладка
         //CB1.printString();
     

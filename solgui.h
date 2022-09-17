@@ -155,6 +155,7 @@ class ComboBox
         const wchar_t *wcstr;
         std::wstring caption;
         short int index_list = 0;
+        short int index_total = 0;
 
         ComboBox(short int _x=0, short int _y=0) : x(_x), y(_y) {};
 
@@ -163,6 +164,7 @@ class ComboBox
                      double duration_state);
         void addString(std::wstring text);
         void printString();
+        void setCurrentIndex(short int index);
 
     private:
         bool show_list = false;

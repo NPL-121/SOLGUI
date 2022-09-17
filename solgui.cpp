@@ -574,6 +574,16 @@ void ComboBox::draw()
         glVertex2f( x+this->width-(this->height*0.5f), y+this->height*0.8f);
     glEnd();
 
+    //Caption
+    glColor3f(this->colorRed, this->colorGreen, this->colorBlue);
+    FTGLPixmapFont font(path_font);
+    font.CharMap(ft_encoding_unicode);
+    font.FaceSize(iFontSize);
+    glRasterPos2i(x+5,y+height*0.76);
+    wcstr = this->caption.c_str();   
+    font.Render(wcstr);
+
+    // если комбобокс открыт
     if (show_list == true) printString();
 }
 
@@ -594,6 +604,35 @@ void ComboBox::MouseOn(double mousex, double mousey, short int wheel, std::strin
                     glVertex2f(x+this->width-this->height+2, y+this->height-2);
                     glVertex2f(x+this->width-this->height+2, y+2);
                 glEnd();
+
+                if (show_list) {
+                      //  printString();
+                        if ( mousex > x and mousex < x+this->width      
+                            and  mousey > y+height  and mousey < y+height+full_height ) {
+                              //std::cout << mouse_state << std::endl;
+                              // относительная координата по y
+                              short int y0 = mousey-y-height;
+                              // вычислим на какой строке находится мышь
+                              short int num_str = (y0 / height) + 1;
+                                //std::cout << index_total << std::endl;
+                                 if (num_str < index_total + 1) {
+                                    glColor3f(this->colorRed*1.2, this->colorGreen*1.2, this->colorBlue*1.2);
+                                    FTGLPixmapFont font(path_font);
+                                    font.CharMap(ft_encoding_unicode);
+                                    font.FaceSize(iFontSize);
+                                    glRasterPos2i(x,y+height*0.85+height*num_str);
+                                    wcstr = this->listString[num_str-1].c_str();   
+                                    font.Render(wcstr);
+                                 }
+   
+                            if (mouse_state == "Left") // Если нажата кнопка
+                            {
+                                //std::cout << "clicked" << std::endl;
+                                setCurrentIndex(num_str-1);
+                            }
+                        }
+               }
+
                 if (mouse_state == "Left") // Если мышь на кнопке и нажата кнопка
                 {
                   timer_start = duration_state;
@@ -631,14 +670,13 @@ void ComboBox::MouseOn(double mousex, double mousey, short int wheel, std::strin
                     glVertex2f( x+this->width-(this->height*0.3f), y+this->height*0.3f);
                     glVertex2f( x+this->width-(this->height*0.5f), y+this->height*0.6f);
                   glEnd();
-                  
-                  if (!show_list && (timer <= 0.03)) show_list = true;
+
+                if (!show_list && (timer <= 0.4)) show_list = true;
                     else { show_list = false; full_height = 0; };
 
-                  if (show_list) printString();
-                  if (timer > 0.1) timer_start = duration_state;
+                if (timer > 0.1) timer_start = duration_state;
                 }
-                
+
             }
     }
 }
@@ -665,6 +703,7 @@ void ComboBox::printString()
         wcstr = this->listString[i].c_str();   
         font.Render(wcstr);
         i++;
+        this->index_total = i;
     }
     glColor3f(guiColorBase.x, guiColorBase.y, guiColorBase.z);
     glBegin(GL_LINE_STRIP);
@@ -675,3 +714,8 @@ void ComboBox::printString()
     glEnd();
 }
 
+void ComboBox::setCurrentIndex(short int index)
+{
+    this->index_list = index;
+    this->caption = this->listString[index];
+}
