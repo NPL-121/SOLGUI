@@ -178,7 +178,7 @@ void setParamsGUI()
 
     // добавление в ComboBox строк
     CB1.addString(L"Первая строка");
-    CB1.addString(L"second string");
+    CB1.addString(L"Green color");
     CB1.addString(L"third string");
     CB1.addString(L"синий цвет");
     //CB1.caption=L"Caption";
@@ -292,6 +292,18 @@ void display_text ( GLFWwindow * window )
                                                  через изменение текста в editbox e1 */
 
      capt2.caption = L"Events = " + temp_caption;
+
+    // изменение в комбобоксе     
+    if (CB1.index_list == 3) { 
+        capt1.colorRed = 0.2;
+        capt1.colorGreen = 0.4;
+        capt1.colorBlue = 0.75;
+     }
+    if (CB1.index_list == 1) { 
+        capt1.colorRed = 0.2;
+        capt1.colorGreen = 0.8;
+        capt1.colorBlue = 0.3;
+     }
 
     wheel_mouse = 0; //сбрасывеам состояние колеса мыши на ноль
 }
