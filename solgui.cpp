@@ -719,3 +719,11 @@ void ComboBox::setCurrentIndex(short int index)
     this->index_list = index;
     this->caption = this->listString[index];
 }
+
+// ==========================================================================
+// Slider 
+void ComboBox::draw()
+{
+    //
+}
+

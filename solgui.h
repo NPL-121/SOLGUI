@@ -169,9 +169,20 @@ class ComboBox
     private:
         bool show_list = false;
         short int length_list = 0;
-        short int full_height = 0;
-        
+        short int full_height = 0;     
+};
+// <- ComboBox //////////////////////////////////////////////////////
+
+// Slider -> ////////////////////////////////////////////////////////
+class Slider
+{
+    public:
+    short int x, y;
+
+    Slider(short int _x = 0, short int _y = 0) : x(_x), y(_y) {};
+    void draw();
 };
 
+// <- Slider ////////////////////////////////////////////////////////
 
 #endif
