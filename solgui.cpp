@@ -722,8 +722,21 @@ void ComboBox::setCurrentIndex(short int index)
 
 // ==========================================================================
 // Slider 
-void ComboBox::draw()
+void Slider::draw()
 {
-    //
+    glColor3f(guiColorBase.x, guiColorBase.y, guiColorBase.z);
+    glBegin(GL_LINE_STRIP);             
+        glVertex2f(x, y);                  
+        glVertex2f(x+this->width, y);
+        glVertex2f(x+this->width, y+this->height);
+        glVertex2f(x, y+this->height);
+        glVertex2f(x, y);
+    glEnd();
+    glBegin(GL_QUADS);
+        glVertex2f(x+(width*position)-2, y-5);
+        glVertex2f(x+(width*position)+2, y-5);
+        glVertex2f(x+(width*position)+2, y+10);
+        glVertex2f(x+(width*position)-2, y+10);
+    glEnd();
 }
 

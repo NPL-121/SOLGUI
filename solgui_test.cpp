@@ -64,6 +64,8 @@ SpinButtn SpB2(320, 300, 10.0, 1.0);
 //ComboBox
 ComboBox CB1(20, 190);
 
+//Slider
+Slider S1(10, 250, 150);
 
 
 
@@ -264,6 +266,8 @@ void display_text ( GLFWwindow * window )
     SpB2.draw(); 
 
     CB1.draw(); // ComboBox
+
+    S1.draw();  // Slider
 
     // Проверка взаимодействия с мышью элементов интерфейса
     b1.MouseOn(mouse_x, mouse_y, mouse_but_state);

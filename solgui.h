@@ -169,7 +169,7 @@ class ComboBox
     private:
         bool show_list = false;
         short int length_list = 0;
-        short int full_height = 0;     
+        short int full_height = 0;    
 };
 // <- ComboBox //////////////////////////////////////////////////////
 
@@ -178,8 +178,16 @@ class Slider
 {
     public:
     short int x, y;
+    short int width = 100;
+    short int height = 5;
+    float step = 1;
+    float minValue = 0;
+    float maxValue = 100;
+    float position = 0.5; // % / 100 
 
-    Slider(short int _x = 0, short int _y = 0) : x(_x), y(_y) {};
+    Slider(short int _x = 0, short int _y = 0, short int _width = 100) : 
+           x(_x), y(_y), width(_width) {};
+
     void draw();
 };
 
