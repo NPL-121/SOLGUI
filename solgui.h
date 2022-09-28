@@ -156,6 +156,7 @@ class ComboBox
         std::wstring caption;
         short int index_list = 0;
         short int index_total = 0;
+        short int index_height = 0;
 
         ComboBox(short int _x=0, short int _y=0) : x(_x), y(_y) {};
 

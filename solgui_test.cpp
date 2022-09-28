@@ -61,11 +61,13 @@ Caption capt2(20, 160, L"Events = ");
 SpinButtn SpB1(300, 300, 10.0, 1.0);
 SpinButtn SpB2(320, 300, 10.0, 1.0);
 
+//Slider
+Slider S1(10, 250, 150);
+
 //ComboBox
 ComboBox CB1(20, 190);
 
-//Slider
-Slider S1(10, 250, 150);
+
 
 
 
@@ -265,9 +267,9 @@ void display_text ( GLFWwindow * window )
     SpB1.draw();  // spinbutton
     SpB2.draw(); 
 
-    CB1.draw(); // ComboBox
-
     S1.draw();  // Slider
+
+    CB1.draw(); // ComboBox
 
     // Проверка взаимодействия с мышью элементов интерфейса
     b1.MouseOn(mouse_x, mouse_y, mouse_but_state);

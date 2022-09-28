@@ -556,6 +556,7 @@ void Caption::setColor(float r, float g, float b)
 // ComboBox
 void ComboBox::draw()
 {
+    // рамка
     glColor3f(guiColorBase.x, guiColorBase.y, guiColorBase.z);
     glBegin(GL_LINE_STRIP);             
         glVertex2f(x, y);                  
@@ -574,6 +575,12 @@ void ComboBox::draw()
         glVertex2f( x+this->width-(this->height*0.5f), y+this->height*0.8f);
     glEnd();
 
+    // если комбобокс открыт
+    if (show_list) {
+        //std::cout << this->index_height << std::endl;
+        printString();
+    }
+
     //Caption
     glColor3f(this->colorRed, this->colorGreen, this->colorBlue);
     FTGLPixmapFont font(path_font);
@@ -582,9 +589,6 @@ void ComboBox::draw()
     glRasterPos2i(x+5,y+height*0.76);
     wcstr = this->caption.c_str();   
     font.Render(wcstr);
-
-    // если комбобокс открыт
-    if (show_list == true) printString();
 }
 
 void ComboBox::MouseOn(double mousex, double mousey, short int wheel, std::string mouse_state,
@@ -606,7 +610,7 @@ void ComboBox::MouseOn(double mousex, double mousey, short int wheel, std::strin
                 glEnd();
 
                 if (show_list) {
-                      //  printString();
+                        printString();
                         if ( mousex > x and mousex < x+this->width      
                             and  mousey > y+height  and mousey < y+height+full_height ) {
                               //std::cout << mouse_state << std::endl;
@@ -635,6 +639,7 @@ void ComboBox::MouseOn(double mousex, double mousey, short int wheel, std::strin
 
                 if (mouse_state == "Left") // Если мышь на кнопке и нажата кнопка
                 {
+                  printString();
                   timer_start = duration_state;
                   glColor3f(0.0,0.0,0.0);             // Закрашивание черным
                   glBegin(GL_LINE_STRIP);             // имеющейся рамки           
@@ -692,6 +697,24 @@ void ComboBox::printString()
         std::wcout << n << std::endl; */
     length_list = 0;
     short int i = 0;
+    //std::cout << this->index_height << std::endl;
+    // фон
+    glColor3f(0.0,0.0,0.0);
+    glBegin(GL_QUADS); // Рисуем прямоугольник (фон )
+      glVertex2f(x, y+height);
+      glVertex2f(x, y+height+this->index_height);
+      glVertex2f(x+width, y+height+this->index_height);
+      glVertex2f(x+width, y+height);
+    glEnd();
+    // рамка
+    glColor3f(guiColorBase.x, guiColorBase.y, guiColorBase.z);
+    glBegin(GL_LINE_STRIP);
+      glVertex2f(x, y+height);
+      glVertex2f(x, y+height+this->index_height);
+      glVertex2f(x+width, y+height+this->index_height);
+      glVertex2f(x+width, y+height);
+    glEnd();
+
     for (std::wstring n : this->listString)
     {
         length_list = length_list + this->height;
@@ -705,13 +728,7 @@ void ComboBox::printString()
         i++;
         this->index_total = i;
     }
-    glColor3f(guiColorBase.x, guiColorBase.y, guiColorBase.z);
-    glBegin(GL_LINE_STRIP);
-      glVertex2f(x, y+height);
-      glVertex2f(x, y+height+length_list);
-      glVertex2f(x+width, y+height+length_list);
-      glVertex2f(x+width, y+height);
-    glEnd();
+    this->index_height = length_list;
 }
 
 void ComboBox::setCurrentIndex(short int index)
@@ -739,4 +756,5 @@ void Slider::draw()
         glVertex2f(x+(width*position)-2, y+10);
     glEnd();
 }
+
 
