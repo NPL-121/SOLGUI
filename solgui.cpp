@@ -10,7 +10,6 @@
 //#include <glm/glm.hpp>  // Включаем GLM
 #include "solgui.h"
 
-
 //const char *pathFont = "data/fonts/fabryka_4f_medium.ttf";
 const char *pathFont = "data/fonts/TerminusTTF-4.47.0.ttf";
 
@@ -757,7 +756,7 @@ void Slider::MouseOn(double mousex, double mousey, short int wheel, std::string 
 {
     //
     if (this->enabled){
-        if ( mousex > x+(width*position)-20 and mousex < x+(width*position)+20      
+        if ( mousex > x+(width*position)-width and mousex < x+(width*position)+width      
             and  mousey > y-5  and mousey < y+10 )
             {
                 //std::cout << "on mouse" << std::endl;
@@ -774,11 +773,20 @@ void Slider::MouseOn(double mousex, double mousey, short int wheel, std::string 
 
 void Slider::drawStick()
 {
+    glColor3f(0.0, 0.0, 0.0);
     glBegin(GL_QUADS);
         glVertex2f(x+(width*position)-3, y-5);
         glVertex2f(x+(width*position)+3, y-5);
         glVertex2f(x+(width*position)+3, y+10);
         glVertex2f(x+(width*position)-3, y+10);
+    glEnd();
+    glColor3f(guiColorBase.x, guiColorBase.y, guiColorBase.z);
+    glBegin(GL_LINE_LOOP);
+        glVertex2f(x+(width*position)-3, y-5);
+        glVertex2f(x+(width*position)+3, y-5);
+        glVertex2f(x+(width*position)+3, y+10);
+        glVertex2f(x+(width*position)-3, y+10);
+        //glVertex2f(x+(width*position)-3, y-5);
     glEnd();
 }
 

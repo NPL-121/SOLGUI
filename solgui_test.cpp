@@ -188,7 +188,7 @@ void setParamsGUI()
     //CB1.caption=L"Caption";
         // отладка
         //CB1.printString();
-    S1.position = 0.75;
+    S1.position = 0.75f;
     
 }
 
@@ -201,6 +201,9 @@ void Init ()
     glOrtho(0.0f, windowWidth, windowHeight, 0.0f, 0.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+
+    glEnable(GL_LINE_SMOOTH);
+    glEnable (GL_BLEND);
 }
 ////////////////////////////
 
