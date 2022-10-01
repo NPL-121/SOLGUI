@@ -749,12 +749,36 @@ void Slider::draw()
         glVertex2f(x, y+this->height);
         glVertex2f(x, y);
     glEnd();
-    glBegin(GL_QUADS);
-        glVertex2f(x+(width*position)-2, y-5);
-        glVertex2f(x+(width*position)+2, y-5);
-        glVertex2f(x+(width*position)+2, y+10);
-        glVertex2f(x+(width*position)-2, y+10);
-    glEnd();
+    drawStick();
 }
 
+void Slider::MouseOn(double mousex, double mousey, short int wheel, std::string mouse_state,
+                     double duration_state)
+{
+    //
+    if (this->enabled){
+        if ( mousex > x+(width*position)-20 and mousex < x+(width*position)+20      
+            and  mousey > y-5  and mousey < y+10 )
+            {
+                //std::cout << "on mouse" << std::endl;
+                if (mouse_state == "Left") // Если мышь на кнопке и нажата кнопка
+                {
+                    position = (mousex - x)/width;
+                    if (position > 1.0) position = 1.0;
+                    if (position < 0.0) position = 0.0;
+                }
+            }
+
+    }
+}
+
+void Slider::drawStick()
+{
+    glBegin(GL_QUADS);
+        glVertex2f(x+(width*position)-3, y-5);
+        glVertex2f(x+(width*position)+3, y-5);
+        glVertex2f(x+(width*position)+3, y+10);
+        glVertex2f(x+(width*position)-3, y+10);
+    glEnd();
+}
 

@@ -188,6 +188,7 @@ void setParamsGUI()
     //CB1.caption=L"Caption";
         // отладка
         //CB1.printString();
+    S1.position = 0.75;
     
 }
 
@@ -279,6 +280,7 @@ void display_text ( GLFWwindow * window )
     SpB1.MouseOn(mouse_x, mouse_y, mouse_but_state, duration);
     SpB2.MouseOn(mouse_x, mouse_y, mouse_but_state, duration);
     CB1.MouseOn(mouse_x, mouse_y, wheel_mouse, mouse_but_state, duration);
+    S1.MouseOn(mouse_x, mouse_y, wheel_mouse, mouse_but_state, duration);
     
 
     // что происходит при нажатии кнопок b1, b2 и т.д.

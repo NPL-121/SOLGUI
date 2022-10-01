@@ -184,12 +184,17 @@ class Slider
     float step = 1;
     float minValue = 0;
     float maxValue = 100;
-    float position = 0.5; // % / 100 
+    float position = 0.5; // % / 100
+    bool enabled = true;
 
     Slider(short int _x = 0, short int _y = 0, short int _width = 100) : 
            x(_x), y(_y), width(_width) {};
 
     void draw();
+    void MouseOn(double mousex, double mousey, short int wheel, std::string mouse_state,
+                     double duration_state);
+    private:
+    void drawStick();
 };
 
 // <- Slider ////////////////////////////////////////////////////////
