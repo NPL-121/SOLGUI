@@ -56,6 +56,7 @@ EditBox e2(10, 460, 80, 20, mouse_x, mouse_y, wheel_mouse, mouse_but_state, "15"
 // Caption
 Caption capt1(200, 200, L"Тестовое сообщение");
 Caption capt2(20, 160, L"Events = ");
+Caption capt3(200, 250, L"Test");
 
 //SpinButtn
 SpinButtn SpB1(300, 300, 10.0, 1.0);
@@ -188,7 +189,8 @@ void setParamsGUI()
     //CB1.caption=L"Caption";
         // отладка
         //CB1.printString();
-    S1.position = 0.75f;
+    S1.maxValue = 250;
+    S1.position = 0.5f;
     
 }
 
@@ -267,6 +269,7 @@ void display_text ( GLFWwindow * window )
 
     capt1.draw(); // caption
     capt2.draw();
+    capt3.draw();
 
     SpB1.draw();  // spinbutton
     SpB2.draw(); 
@@ -303,6 +306,8 @@ void display_text ( GLFWwindow * window )
                                                  через изменение текста в editbox e1 */
 
      capt2.caption = L"Events = " + temp_caption;
+
+     capt3.caption = std::to_wstring(S1.value);
 
     // изменение в комбобоксе     
     if (CB1.index_list == 3) { 

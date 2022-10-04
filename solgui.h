@@ -185,6 +185,7 @@ class Slider
     float minValue = 0;
     float maxValue = 100;
     float position = 0.5; // % / 100
+    float value = maxValue * position;
     bool enabled = true;
 
     Slider(short int _x = 0, short int _y = 0, short int _width = 100) : 

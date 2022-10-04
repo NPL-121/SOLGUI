@@ -749,6 +749,7 @@ void Slider::draw()
         glVertex2f(x, y);
     glEnd();
     drawStick();
+    value = maxValue * position;
 }
 
 void Slider::MouseOn(double mousex, double mousey, short int wheel, std::string mouse_state,
